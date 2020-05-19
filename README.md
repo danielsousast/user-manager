@@ -8,14 +8,17 @@ The User Manager is an API made with Node, Express and MongoDB.
   // 1 - Git Clone
   git clone https://github.com/danielsousast/user-manager.git
 
-  // 2 - Copy the .env.example and set the environment variables
+  // 2 - Change directory
+  cd user-manager
+
+  // 3 - Copy the .env.example and set the environment variables
   cp .env.example .env
 
-  // 3 - Run the services (Be sure to have docker and docker-compose installed)
+  // 4 - Run the services (Be sure to have docker and docker-compose installed)
   docker-compose up -d
 
-  // 4 - Once the services are running, its time to install the dependencies
-  yarn install
+  // 5 - Once the services are running, its time to install the dependencies
+  yarn or npm install
 
 ```
 
@@ -32,6 +35,18 @@ The User Manager is an API made with Node, Express and MongoDB.
 |  GET         |  /users/:id   | Returns a user based on the id passed as a parameter **(Private)**|
 
 The user must be logged in to access **Private** routes. Must have a JWT Token
+
+### Requirements for each route
+| METHOD       | RESOURCE      | FUNCTION                                            |
+| ------------ | --------------|-----------------------------------------------------|
+|  POST        |  /users       | body = name, username, email, password              |
+|  POST        |  /sessions    | body = email, password                              |
+|  PUT         |  /users/:id   | params = User Id   /   body(optional) = name, username, email, password |
+|  DELETE      |  /users/:id   | params = User Id                                     |
+|  GET         |  /users       | - - - |
+|  GET         |  /users/:id   | params = User Id |
+
+Private routes need the **JWT Token** that must be sent to the Header for the required word **'Bearer'**
 
 ## Status Code
 
