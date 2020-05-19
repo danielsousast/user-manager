@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongo from './config/mongo';
 
 require('./bootstrap');
 
@@ -12,10 +13,13 @@ class Database {
     }
 
     init() {
-        mongoose.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        mongoose.connect(
+            `mongodb://${mongo.user}:${mongo.pass}@${mongo.host}:${mongo.port}`,
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            }
+        );
         mongoose.set('useCreateIndex', true);
     }
 }
