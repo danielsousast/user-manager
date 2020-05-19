@@ -27,24 +27,24 @@ The User Manager is an API made with Node, Express and MongoDB.
 
 | METHOD       | RESOURCE      | FUNCTION                                            |
 | ------------ | --------------|-----------------------------------------------------|
-|  POST        |  /users       | Creates a new user in the database                  |
+|  POST        |  /users       | Register a user in the database                     |
 |  POST        |  /sessions    | Generates a JWT authentication token                |
-|  PUT         |  /users/:id   | Updates a user according to the parameter sent **(Private)**|
-|  DELETE      |  /users/:id   | Changes a user's property DELETED to TRUE **(Private)**|
-|  GET         |  /users       | Returns all users registered in the database **(Private)**|
-|  GET         |  /users/:id   | Returns a user based on the id passed as a parameter **(Private)**|
+|  PUT         |  /users/:id   | Edit user data **(Private)**                        |
+|  DELETE      |  /users/:id   | Marks the user as deleted **(Private)**             |
+|  GET         |  /users       | Returns all users registered **(Private)**          |
+|  GET         |  /users/:id   | Returns the user profile **(Private)**              |
 
 The user must be logged in to access **Private** routes. Must have a JWT Token
 
-### Requirements for each route
+## Requirements for each route
 | METHOD       | RESOURCE      | FUNCTION                                            |
 | ------------ | --------------|-----------------------------------------------------|
 |  POST        |  /users       | body = name, username, email, password              |
 |  POST        |  /sessions    | body = email, password                              |
-|  PUT         |  /users/:id   | params = User Id   /   body(optional) = name, username, email, password |
-|  DELETE      |  /users/:id   | params = User Id                                     |
-|  GET         |  /users       | - - - |
-|  GET         |  /users/:id   | params = User Id |
+|  PUT         |  /users/:id   | params = User Id   /  body = New user data          |
+|  DELETE      |  /users/:id   | params = User Id                                    |
+|  GET         |  /users       | - - -                                               |
+|  GET         |  /users/:id   | params = User Id                                    |
 
 Private routes need the **JWT Token** that must be sent to the Header for the required word **'Bearer'**
 
@@ -63,10 +63,14 @@ Private routes need the **JWT Token** that must be sent to the Header for the re
 * Express
 * Mongoose
 * MongoDB
+* Sucrase
+* Json Web Token
+* Yup Validation
 
 ## Support Technologies
 * Sentry
 * Jest
+* Supertest
 * Docker
 * Docker Compose
 

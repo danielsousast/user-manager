@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import request from 'supertest';
 import mongoose from 'mongoose';
 import crypto from 'crypto';
@@ -7,25 +8,30 @@ import factory from '../util/factories';
 
 describe('User', () => {
     beforeAll(async () => {
-        await mongoose.connect('mongodb://localhost:27017/jest',
-            { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+        await mongoose.connect(
+            'mongodb://localhost:27017/jest',
+            { useNewUrlParser: true, useUnifiedTopology: true },
+            (err) => {
                 if (err) {
                     console.log(err);
                 }
-            });
+            }
+        );
     });
 
     beforeEach(async () => {
-        await dropAllCollections()
+        await dropAllCollections();
     });
 
-    it('should encrypt user password when new user created', async function(){
+    it('should encrypt user password when new user created', async function () {
         const user = await factory.create('User', {
-            password: '123456'
+            password: '123456',
         });
 
         function checkPassword(password) {
-            const hash = crypto.pbkdf2Sync(password, user.salt, 10000, 512, "sha512").toString("hex");
+            const hash = crypto
+                .pbkdf2Sync(password, user.salt, 10000, 512, 'sha512')
+                .toString('hex');
             return hash === user.hash;
         }
 
@@ -47,9 +53,7 @@ describe('User', () => {
 
         await request(app).post('/users').send(user);
 
-        const response = await request(app)
-            .post('/users')
-            .send(user);
+        const response = await request(app).post('/users').send(user);
 
         expect(response.status).toBe(400);
     });
@@ -59,12 +63,10 @@ describe('User', () => {
 
         await request(app).post('/users').send(user);
 
-        const response = await request(app)
-            .post('/sessions')
-            .send({
-                email: user.email,
-                password: user.password
-            });
+        const response = await request(app).post('/sessions').send({
+            email: user.email,
+            password: user.password,
+        });
 
         expect(response.body).toHaveProperty('token');
     });
