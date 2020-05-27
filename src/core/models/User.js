@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import jwtConfig from '../config/jwt';
+import jwtConfig from '../../config/jwt';
 
 const UserSchema = new Schema(
     {
@@ -21,9 +21,20 @@ const UserSchema = new Schema(
         },
         salt: String,
         hash: String,
+        role: {
+            type: Array,
+            default: ['user'],
+        },
         deleted: {
             type: Boolean,
             default: false,
+        },
+        recovery: {
+            type: {
+                token: String,
+                date: Date,
+            },
+            default: {},
         },
     },
     {
@@ -82,6 +93,19 @@ UserSchema.methods.getAuthJson = function () {
         active: this.active,
         token: this.generateToken(),
     };
+};
+
+// Generates a Recovery Token
+UserSchema.methods.generateRecoveryToken = function () {
+    this.recovery = {};
+    this.recovery.token = crypto.randomBytes(8).toString('hex');
+    this.recovery.date = new Date(new Date().getTime() + 5 * 60 * 1000);
+    return this.recovery;
+};
+
+UserSchema.methods.endRecoveryToken = function () {
+    this.recovery = { token: null, date: null };
+    return this.recovery;
 };
 
 export default mongoose.model('User', UserSchema);

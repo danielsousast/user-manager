@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import mongo from './config/mongo';
+// import mongo from './config/mongo';
 
 require('./bootstrap');
 
@@ -14,7 +14,8 @@ class Database {
 
     init() {
         mongoose.connect(
-            `mongodb://${mongo.user}:${mongo.pass}@${mongo.host}:${mongo.port}`,
+            // `mongodb://${mongo.user}:${mongo.pass}@${mongo.host}:${mongo.port}`,
+            'mongodb://localhost:27017/test',
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,

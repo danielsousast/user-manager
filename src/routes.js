@@ -1,15 +1,18 @@
 import { Router } from 'express';
-import UserController from './controllers/UserController';
-import SessionController from './controllers/SessionController';
+import UserController from './core/controllers/UserController';
+import SessionController from './core/controllers/SessionController';
+import RecoveryController from './core/controllers/RecoveryController';
 import {
     storeValidation,
     updateValidation,
-} from './validations/UserValidation';
-import sessionValidation from './validations/SessionValitaion';
-import auth from './middlewares/auth';
+} from './core/validations/UserValidation';
+import sessionValidation from './core/validations/SessionValitaion';
+import auth from './core/middlewares/auth';
 
 const routes = new Router();
 
+routes.post('/recovery', RecoveryController.store);
+routes.put('/recovery', RecoveryController.update);
 routes.post('/sessions', sessionValidation, SessionController.store);
 
 // The POST route is out of the authentication middleware just for TESTING
